@@ -1,3 +1,9 @@
 # **TIC TAC TOE**
 
-### Game to be created in pure Python
+## You can play the classic game against an 'aware' AI.
+### Game created in pure Python  
+  
+  
+Neave Paul
+
+
