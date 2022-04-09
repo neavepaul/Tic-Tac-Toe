@@ -4,7 +4,7 @@
 ### Game created in pure Python  
   
   
-To run the game on your device, run the [installer](https://github.com/daftyy/Tic-Tac-Toe/raw/main/Neave%20AI%20-%20Tic%20Tac%20Toe.msi) and run 'Neave_TicTacToe.exe'.  
+To run the game on your device, run the [installer](https://github.com/daftyy/Tic-Tac-Toe/raw/main/Neave%20AI%20-%20Tic%20Tac%20Toe-1.2-win64.msi) and run 'Neave_TicTacToe.exe'.  
 Enjoy!  
 Neave Paul
 
