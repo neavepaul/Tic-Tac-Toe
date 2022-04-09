@@ -17,6 +17,13 @@ mediumFont = pygame.font.Font("OpenSans-Regular.ttf", 28)
 largeFont = pygame.font.Font("OpenSans-Regular.ttf", 40)
 moveFont = pygame.font.Font("OpenSans-Regular.ttf", 60)
 
+# Name the game
+pygame.display.set_caption("Tic Tac Toe")
+
+# Add icon
+garrix = pygame.image.load("martyyy.png")
+pygame.display.set_icon(garrix)
+
 user = None
 board = ttt.initial_state()
 ai_turn = False
@@ -77,7 +84,8 @@ while True:
                 rect = pygame.Rect(
                     tile_origin[0] + j * tile_size,
                     tile_origin[1] + i * tile_size,
-                    tile_size, tile_size
+                    tile_size, 
+                    tile_size
                 )
                 pygame.draw.rect(screen, white, rect, 3)
 
@@ -88,4 +96,59 @@ while True:
                     screen.blit(move, moveRect)
                 row.append(rect)
             tiles.append(row)
+
+        game_over = ttt.terminal(board)
+        player = ttt.player(board)
+
+        # Show title
+        if game_over:
+            winner = ttt.winner(board)
+            if winner is None:
+                title = "Game Over: Tie."
+            else:
+                title = f"Game Over: {winner} wins."
+        elif user == player:
+            title = f"Play as {user}"
+        else:
+            title = "Computer thinking..."
+        title = largeFont.render(title, True, white)
+        titleRect = title.get_rect()
+        titleRect.center = ((width / 2), 30)
+        screen.blit(title, titleRect)
+
+        # Check for AI move
+        if user != player and not game_over:
+            if ai_turn:
+                time.sleep(0.5)
+                move = ttt.minimax(board)
+                board = ttt.result(board, move)
+                ai_turn = False
+            else:
+                ai_turn = True
+
+        # Check for a user move
+        click, _, _ = pygame.mouse.get_pressed()
+        if click == 1 and user == player and not game_over:
+            mouse = pygame.mouse.get_pos()
+            for i in range(3):
+                for j in range(3):
+                    if (board[i][j] == ttt.EMPTY and tiles[i][j].collidepoint(mouse)):
+                        board = ttt.result(board, (i, j))
+
+        if game_over:
+            againButton = pygame.Rect(width / 3, height - 65, width / 3, 50)
+            again = mediumFont.render("Play Again", True, black)
+            againRect = again.get_rect()
+            againRect.center = againButton.center
+            pygame.draw.rect(screen, white, againButton)
+            screen.blit(again, againRect)
+            click, _, _ = pygame.mouse.get_pressed()
+            if click == 1:
+                mouse = pygame.mouse.get_pos()
+                if againButton.collidepoint(mouse):
+                    time.sleep(0.2)
+                    user = None
+                    board = ttt.initial_state()
+                    ai_turn = False
+
     pygame.display.flip()
